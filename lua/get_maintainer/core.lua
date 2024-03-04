@@ -21,7 +21,7 @@ M.get_from_range = function()
 		local cmd = util.get_fullcmd(ref)
 		local partial = vim.fn.system(cmd)
 
-		output = output .. commit .. partial .. commit .. "\n\n"
+		output = output .. commit .. "\n" .. partial .. commit .. "\n\n"
 	end
 
 	util.setreg(output)
