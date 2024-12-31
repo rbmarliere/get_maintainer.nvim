@@ -2,8 +2,8 @@ local M = {}
 local util = require("get_maintainer.util")
 local log = require("get_maintainer.log")
 
-M.get_from_cursor = function()
-	log.print("get_from_cursor")
+M.from_cursor = function()
+	log.print("from_cursor")
 	local ref = vim.fn.expand("<cword>")
 	local cmd = util.get_fullcmd(ref)
 	local output = vim.fn.system(cmd)
@@ -13,8 +13,8 @@ M.get_from_cursor = function()
 	vim.api.nvim_echo({ { output, "" } }, false, {})
 end
 
-M.get_from_range = function()
-	log.print("get_from_range")
+M.from_range = function()
+	log.print("from_range")
 	local sel = util.get_visual_selection()
 	local output = ""
 
@@ -33,8 +33,8 @@ M.get_from_range = function()
 	vim.api.nvim_echo({ { output, "" } }, false, {})
 end
 
-M.get_from_file = function()
-	log.print("get_from_file")
+M.from_file = function()
+	log.print("from_file")
 	local file = vim.fn.expand("%")
 	local cmd = util.get_cmd({ "-f", file })
 	local output = vim.fn.system(cmd)
