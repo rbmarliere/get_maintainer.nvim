@@ -6,8 +6,9 @@ M.get_visual_selection = function()
 	log.print("get_visual_selection")
 
 	local mode = vim.api.nvim_get_mode()
-	-- if not in visual mode, return
-	if mode.mode ~= "V" then
+	local ctrl_v = vim.api.nvim_replace_termcodes("<C-V>", true, false, true)
+	if mode.mode ~= "v" and mode.mode ~= "V" and mode.mode ~= ctrl_v then
+		log.print("unsupported mode")
 		return {}
 	end
 
@@ -15,10 +16,13 @@ M.get_visual_selection = function()
 	local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
 	vim.api.nvim_feedkeys(esc, "x", false)
 
-	local _, start_row, _, _ = unpack(vim.fn.getpos("'<"))
-	local _, end_row, _, _ = unpack(vim.fn.getpos("'>"))
+	local _, start_row, start_col, _ = unpack(vim.fn.getpos("'<"))
+	local _, end_row, end_col, _ = unpack(vim.fn.getpos("'>"))
 
-	return vim.fn.getline(start_row, end_row)
+	local lines = vim.api.nvim_buf_get_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, {})
+	log.print(lines)
+
+	return lines
 end
 
 M.get_cmd = function(args)
