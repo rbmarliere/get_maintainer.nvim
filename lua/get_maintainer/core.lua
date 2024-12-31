@@ -5,7 +5,7 @@ local log = require("get_maintainer.log")
 M.from_cursor = function()
 	log.print("from_cursor")
 	local ref = vim.fn.expand("<cword>")
-	local cmd = util.get_fullcmd(ref)
+	local cmd = util.git_show_cmd(ref)
 	local output = vim.fn.system(cmd)
 
 	util.setreg(output)
@@ -22,7 +22,7 @@ M.from_range = function()
 		log.print("Processing %s", commit)
 		vim.cmd('echo "Processing: ' .. commit .. '"')
 		local ref = string.match(commit, "^(%w+)")
-		local cmd = util.get_fullcmd(ref)
+		local cmd = util.git_show_cmd(ref)
 		local partial = vim.fn.system(cmd)
 
 		output = output .. commit .. "\n" .. partial .. commit .. "\n\n"
@@ -36,7 +36,7 @@ end
 M.from_file = function()
 	log.print("from_file")
 	local file = vim.fn.expand("%")
-	local cmd = util.get_cmd({ "-f", file })
+	local cmd = util.get_maintainer_cmd({ "-f", file })
 	local output = vim.fn.system(cmd)
 
 	util.setreg(output)

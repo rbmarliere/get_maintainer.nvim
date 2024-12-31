@@ -25,17 +25,17 @@ M.get_visual_selection = function()
 	return lines
 end
 
-M.get_cmd = function(args)
+M.get_maintainer_cmd = function(args)
 	local cmd = config.options.path
 	local argv = table.concat(config.options.args or {}, " ") .. " " .. table.concat(args or {}, " ")
 	local ret = cmd .. " " .. argv
-	log.print("get_cmd :: %s", ret)
+	log.print("get_maintainer_cmd :: %s", ret)
 	return ret
 end
 
-M.get_fullcmd = function(ref)
-	local cmd = "git --no-pager show " .. ref .. " | " .. M.get_cmd()
-	log.print("get_fullcmd :: %s", cmd)
+M.git_show_cmd = function(ref)
+	local cmd = "git --no-pager show " .. ref .. " | " .. M.get_maintainer_cmd()
+	log.print("git_show_cmd :: %s", cmd)
 	return cmd
 end
 
