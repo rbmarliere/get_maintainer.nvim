@@ -25,6 +25,19 @@ M.get_visual_selection = function()
 	return lines
 end
 
+M.is_ref = function(ref)
+	local cmd = "git cat-file -t " .. ref
+	local out = vim.trim(vim.fn.system(cmd))
+	log.print("is_ref(%s) :: %s", ref, out)
+	return out == "commit"
+end
+
+M.is_file = function(file)
+	local out = vim.fn.filereadable(file)
+	log.print("is_file(%s) :: %s", file, out)
+	return vim.fn.filereadable(file) == 1
+end
+
 M.get_maintainer_cmd = function(args)
 	local cmd = config.options.path
 	local argv = table.concat(config.options.args or {}, " ") .. " " .. table.concat(args or {}, " ")

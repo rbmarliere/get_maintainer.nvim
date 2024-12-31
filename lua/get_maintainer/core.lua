@@ -18,14 +18,22 @@ M.from_range = function()
 	local sel = util.get_visual_selection()
 	local output = ""
 
-	for _, commit in pairs(sel) do
-		log.echo("Processing %s", commit)
-
-		local ref = string.match(commit, "^(%w+)")
-		local cmd = util.git_show_cmd(ref)
-		local partial = vim.fn.system(cmd)
-
-		output = output .. commit .. "\n" .. partial .. commit .. "\n\n"
+	for _, line in pairs(sel) do
+		log.echo("Processing %s", line)
+		for word in line:gmatch("%S+") do
+			log.print(word)
+			local partial = ""
+			if util.is_file(word) then
+				local cmd = util.get_maintainer_cmd({ "-f", word })
+				partial = vim.fn.system(cmd)
+			elseif util.is_ref(word) then
+				local cmd = util.git_show_cmd(word)
+				partial = vim.fn.system(cmd)
+			end
+			if partial ~= "" then
+				output = output .. word .. "\n" .. partial .. word .. "\n\n"
+			end
+		end
 	end
 
 	util.setreg(output)
