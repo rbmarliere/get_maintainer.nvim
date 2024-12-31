@@ -14,6 +14,7 @@ return {
   "rbmarliere/get_maintainer.nvim",
   opts = {
     -- path = "/somewhere/get_maintainer.pl" -- defaults to get_maintainer.pl, assume it's visible in $PATH
+    -- verbose = false, -- enable debugging messages
     -- use_clipboard = "" -- can be unnamed or unnamedplus, where to send the script output
     -- args = {
     --   "--flags-to-the-script", -- defaults to {"--scm"} to retrieve the trees too

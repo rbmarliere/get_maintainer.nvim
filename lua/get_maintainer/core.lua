@@ -1,7 +1,9 @@
 local M = {}
 local util = require("get_maintainer.util")
+local log = require("get_maintainer.log")
 
 M.get_from_cursor = function()
+	log.print("get_from_cursor")
 	local ref = vim.fn.expand("<cword>")
 	local cmd = util.get_fullcmd(ref)
 	local output = vim.fn.system(cmd)
@@ -12,10 +14,12 @@ M.get_from_cursor = function()
 end
 
 M.get_from_range = function()
+	log.print("get_from_range")
 	local sel = util.get_visual_selection()
 	local output = ""
 
 	for _, commit in pairs(sel) do
+		log.print("Processing %s", commit)
 		vim.cmd('echo "Processing: ' .. commit .. '"')
 		local ref = string.match(commit, "^(%w+)")
 		local cmd = util.get_fullcmd(ref)
@@ -30,6 +34,7 @@ M.get_from_range = function()
 end
 
 M.get_from_file = function()
+	log.print("get_from_file")
 	local file = vim.fn.expand("%")
 	local cmd = util.get_cmd({ "-f", file })
 	local output = vim.fn.system(cmd)

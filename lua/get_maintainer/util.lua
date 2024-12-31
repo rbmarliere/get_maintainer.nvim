@@ -1,7 +1,10 @@
 local M = {}
 local config = require("get_maintainer.config")
+local log = require("get_maintainer.log")
 
 M.get_visual_selection = function()
+	log.print("get_visual_selection")
+
 	local mode = vim.api.nvim_get_mode()
 	-- if not in visual mode, return
 	if mode.mode ~= "V" then
@@ -21,15 +24,19 @@ end
 M.get_cmd = function(args)
 	local cmd = config.options.path
 	local argv = table.concat(config.options.args or {}, " ") .. " " .. table.concat(args or {}, " ")
-	return cmd .. " " .. argv
+	local ret = cmd .. " " .. argv
+	log.print("get_cmd :: %s", ret)
+	return ret
 end
 
 M.get_fullcmd = function(ref)
-	local cmd = M.get_cmd()
-	return "git --no-pager show " .. ref .. " | " .. cmd
+	local cmd = "git --no-pager show " .. ref .. " | " .. M.get_cmd()
+	log.print("get_fullcmd :: %s", cmd)
+	return cmd
 end
 
 M.setreg = function(content)
+	log.print("setreg :: %s", content)
 	-- put into paste registers
 	if config.options.use_clipboard == "unnamed" then
 		vim.fn.setreg("", content)
