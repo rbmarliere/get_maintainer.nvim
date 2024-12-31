@@ -5,7 +5,7 @@ local log = require("get_maintainer.log")
 M.from_cursor = function()
 	log.print("from_cursor")
 	local ref = vim.fn.expand("<cword>")
-	local cmd = util.git_show_cmd(ref)
+	local cmd = util.git_patch_cmd(ref)
 	local output = vim.fn.system(cmd)
 
 	util.setreg(output)
@@ -27,7 +27,7 @@ M.from_range = function()
 				local cmd = util.get_maintainer_cmd({ "-f", word })
 				partial = vim.fn.system(cmd)
 			elseif util.is_ref(word) then
-				local cmd = util.git_show_cmd(word)
+				local cmd = util.git_patch_cmd(word)
 				partial = vim.fn.system(cmd)
 			end
 			if partial ~= "" then

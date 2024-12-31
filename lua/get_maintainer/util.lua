@@ -46,9 +46,9 @@ M.get_maintainer_cmd = function(args)
 	return ret
 end
 
-M.git_show_cmd = function(ref)
-	local cmd = "git --no-pager show " .. ref .. " | " .. M.get_maintainer_cmd()
-	log.print("git_show_cmd :: %s", cmd)
+M.git_patch_cmd = function(ref)
+	local cmd = "git --no-pager format-patch --stdout -1 " .. ref .. " | " .. M.get_maintainer_cmd()
+	log.print("git_patch_cmd :: %s", cmd)
 	return cmd
 end
 
