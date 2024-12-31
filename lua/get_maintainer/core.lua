@@ -19,8 +19,8 @@ M.from_range = function()
 	local output = ""
 
 	for _, commit in pairs(sel) do
-		log.print("Processing %s", commit)
-		vim.cmd('echo "Processing: ' .. commit .. '"')
+		log.echo("Processing %s", commit)
+
 		local ref = string.match(commit, "^(%w+)")
 		local cmd = util.git_show_cmd(ref)
 		local partial = vim.fn.system(cmd)
